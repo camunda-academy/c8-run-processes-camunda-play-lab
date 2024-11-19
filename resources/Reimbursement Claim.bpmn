@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Web Modeler" exporterVersion="74577ef" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.6.0" camunda:diagramRelationId="fb2ed551-11bf-4371-b117-c3c5549bed2a">
+  <bpmn:collaboration id="Collaboration_006flti" name="Reimbursement Claim">
+    <bpmn:participant id="Participant_0x0adx4" name="Reimbursement Claim" processRef="ReimbursementClaimProcess" />
+    <bpmn:textAnnotation id="TextAnnotation_1mz4z7c">
+      <bpmn:text>Mock SendGrid connector</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0bkhsb5" associationDirection="None" sourceRef="Activity_NotifyRequester" targetRef="TextAnnotation_1mz4z7c" />
+  </bpmn:collaboration>
+  <bpmn:process id="ReimbursementClaimProcess" name="Reimbursement Claim Process" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_ReimbursementRequestStarted" name="Reimbursement request started">
+      <bpmn:extensionElements>
+        <zeebe:properties>
+          <zeebe:property name="camundaModeler:exampleOutputJson" value="{&#10;  &#34;travelRequestId&#34;: &#34;1695286596244&#34;,&#10;  &#34;travel&#34;: {&#10;    &#34;startDate&#34;: &#34;2025-11-06&#34;,&#10;    &#34;endDate&#34;: &#34;2025-11-08&#34;,&#10;    &#34;destination&#34;: &#34;Paris&#34;,&#10;        &#34;flight&#34;: &#34;LH 1036&#34;,&#10;        &#34;hotel&#34;: &#34;Hotel Park Lane&#34;&#10;  },&#10;  &#34;employee&#34;: {&#10;    &#34;fullName&#34;: &#34;Helen Kelly&#34;,&#10;    &#34;email&#34;: &#34;helen.kelly@camundanzia.com&#34;&#10;  },&#10;  &#34;customer&#34;: {&#10;    &#34;name&#34;: &#34;SHD - StellarBound Horizons Dynamics&#34;,&#10;    &#34;address&#34;: &#34;42 Interstellar Commerce Plaza - Orion Sector&#34;,&#10;    &#34;city&#34;: &#34;Nova Terra&#34;,&#10;    &#34;email&#34;: &#34;welcome@shd-stellar-horizons-dynamics.io&#34;&#10;  },&#10;&#34;travelExpenses&#34;:[&#10;  {&#10;    &#34;name&#34;: &#34;hotel&#34;,&#10;    &#34;amount&#34;: 450&#10;  },&#10;  {&#10;    &#34;name&#34;: &#34;taxi&#34;,&#10;    &#34;amount&#34;: 30&#10;  },&#10;  {&#10;    &#34;name&#34;: &#34;flight&#34;,&#10;    &#34;amount&#34;: 240&#10;  }&#10;],&#10;&#34;expenses&#34;:720&#10;}" />
+        </zeebe:properties>
+      </bpmn:extensionElements>
+      <bpmn:outgoing>Flow_04xiydj</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:exclusiveGateway id="Gateway_ReimbursementApproved" name="Reimbursement auto-approved?" default="Flow_yes">
+      <bpmn:incoming>Flow_1w7qbyr</bpmn:incoming>
+      <bpmn:outgoing>Flow_yes</bpmn:outgoing>
+      <bpmn:outgoing>Flow_no</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="MergeGateway_Expenses">
+      <bpmn:incoming>Flow_yes</bpmn:incoming>
+      <bpmn:incoming>Flow_0fjwylg</bpmn:incoming>
+      <bpmn:outgoing>Flow_0bnw0kb</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="Activity_NotifyRequester" name="Notify requester">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="notifyConsultantExpensesReimbursed" />
+        <zeebe:properties>
+          <zeebe:property name="camundaModeler:exampleOutputJson" value="{&#10;&#34;notifyReimbursementDecision&#34;:{&#10;&#34;subject&#34;:&#34;Your Reimbursement Claim&#34;, &#34;body&#34;:&#34;Dear [employee.fullname], Your reimbursement claim has been [reimbursementApproved]&#34;}&#10;}" />
+        </zeebe:properties>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0bnw0kb</bpmn:incoming>
+      <bpmn:outgoing>Flow_0jwhtgu</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="EndEvent_ReimbursementRequestEnded" name="Reimbursement request ended">
+      <bpmn:incoming>Flow_0jwhtgu</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="Activity_ReviewExpenses" name="Review expenses">
+      <bpmn:extensionElements>
+        <zeebe:formDefinition formId="review-expense-report-01n9xjw" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_no</bpmn:incoming>
+      <bpmn:outgoing>Flow_0fjwylg</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:businessRuleTask id="Activity_DetermineReimbursement" name="Determine reimbursement">
+      <bpmn:extensionElements>
+        <zeebe:calledDecision decisionId="Decision_DetermineReimbursement" resultVariable="reimbursementApproved" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_04xiydj</bpmn:incoming>
+      <bpmn:outgoing>Flow_1w7qbyr</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:sequenceFlow id="Flow_04xiydj" sourceRef="StartEvent_ReimbursementRequestStarted" targetRef="Activity_DetermineReimbursement" />
+    <bpmn:sequenceFlow id="Flow_1w7qbyr" sourceRef="Activity_DetermineReimbursement" targetRef="Gateway_ReimbursementApproved" />
+    <bpmn:sequenceFlow id="Flow_yes" name="yes" sourceRef="Gateway_ReimbursementApproved" targetRef="MergeGateway_Expenses" />
+    <bpmn:sequenceFlow id="Flow_no" name="no" sourceRef="Gateway_ReimbursementApproved" targetRef="Activity_ReviewExpenses">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=not(reimbursementApproved)</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0fjwylg" sourceRef="Activity_ReviewExpenses" targetRef="MergeGateway_Expenses" />
+    <bpmn:sequenceFlow id="Flow_0bnw0kb" sourceRef="MergeGateway_Expenses" targetRef="Activity_NotifyRequester" />
+    <bpmn:sequenceFlow id="Flow_0jwhtgu" sourceRef="Activity_NotifyRequester" targetRef="EndEvent_ReimbursementRequestEnded" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_006flti">
+      <bpmndi:BPMNShape id="Participant_0x0adx4_di" bpmnElement="Participant_0x0adx4" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="1050" height="280" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_ReimbursementRequestStarted">
+        <dc:Bounds x="232" y="202" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="212" y="245" width="79" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_049ysb8_di" bpmnElement="Gateway_ReimbursementApproved" isMarkerVisible="true">
+        <dc:Bounds x="455" y="195" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="441" y="158" width="79" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_05xy6k8_di" bpmnElement="MergeGateway_Expenses" isMarkerVisible="true">
+        <dc:Bounds x="785" y="195" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_02w6hqt_di" bpmnElement="Activity_NotifyRequester">
+        <dc:Bounds x="900" y="180" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1m5znle_di" bpmnElement="EndEvent_ReimbursementRequestEnded">
+        <dc:Bounds x="1082" y="202" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1063" y="245" width="79" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0970kji_di" bpmnElement="Activity_ReviewExpenses">
+        <dc:Bounds x="580" y="180" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0flgdqe_di" bpmnElement="Activity_DetermineReimbursement">
+        <dc:Bounds x="310" y="180" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_04xiydj_di" bpmnElement="Flow_04xiydj">
+        <di:waypoint x="268" y="220" />
+        <di:waypoint x="310" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1w7qbyr_di" bpmnElement="Flow_1w7qbyr">
+        <di:waypoint x="410" y="220" />
+        <di:waypoint x="455" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1fop8kp_di" bpmnElement="Flow_yes">
+        <di:waypoint x="480" y="245" />
+        <di:waypoint x="480" y="310" />
+        <di:waypoint x="810" y="310" />
+        <di:waypoint x="810" y="245" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="637" y="292" width="17" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ogg572_di" bpmnElement="Flow_no">
+        <di:waypoint x="505" y="220" />
+        <di:waypoint x="580" y="220" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="536" y="202" width="13" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0fjwylg_di" bpmnElement="Flow_0fjwylg">
+        <di:waypoint x="680" y="220" />
+        <di:waypoint x="785" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0bnw0kb_di" bpmnElement="Flow_0bnw0kb">
+        <di:waypoint x="835" y="220" />
+        <di:waypoint x="900" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0jwhtgu_di" bpmnElement="Flow_0jwhtgu">
+        <di:waypoint x="1000" y="220" />
+        <di:waypoint x="1082" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_1mz4z7c_di" bpmnElement="TextAnnotation_1mz4z7c">
+        <dc:Bounds x="900" y="120" width="100" height="41" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_0bkhsb5_di" bpmnElement="Association_0bkhsb5">
+        <di:waypoint x="950" y="180" />
+        <di:waypoint x="950" y="161" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

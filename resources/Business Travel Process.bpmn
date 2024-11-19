@@ -1,0 +1,564 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Web Modeler" exporterVersion="74577ef" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.6.0" camunda:diagramRelationId="4966444d-e450-4129-9f81-804aafee1ae2">
+  <bpmn:collaboration id="Collaboration_01wslmh" name="Business Travel Process">
+    <bpmn:participant id="Participant_06s9onz" name="Consultant" processRef="BusinessTravelProcessPlay" />
+    <bpmn:textAnnotation id="TextAnnotation_07qzc2g">
+      <bpmn:text>Mock SendGrid connector</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="TextAnnotation_0gs1wgd">
+      <bpmn:text>Mock SendGrid connector</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="TextAnnotation_1dq34hg">
+      <bpmn:text>Mock SendGrid connector</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="TextAnnotation_0euyu5p">
+      <bpmn:text>Mock SendGrid connector</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="TextAnnotation_1h12q4x">
+      <bpmn:text>Mock SendGrid connector</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="TextAnnotation_0dqkwmh">
+      <bpmn:text>Mock SendGrid connector</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1x6djt9" associationDirection="None" sourceRef="Activity_NotifyEmployeeTravelPolicyUpdated" targetRef="TextAnnotation_07qzc2g" />
+    <bpmn:association id="Association_0uhow9r" associationDirection="None" sourceRef="Activity_NotifyCustomerTravelConfirmed" targetRef="TextAnnotation_0gs1wgd" />
+    <bpmn:association id="Association_153t3je" associationDirection="None" sourceRef="Activity_NotifyEmployeeTravelFeedback" targetRef="TextAnnotation_1dq34hg" />
+    <bpmn:association id="Association_14e8j38" associationDirection="None" sourceRef="Activity_NotifyEmployeeBookingConfirmed" targetRef="TextAnnotation_0euyu5p" />
+    <bpmn:association id="Association_16nhw5h" associationDirection="None" sourceRef="Activity_NotifyEmployeeTravelCancellation" targetRef="TextAnnotation_1h12q4x" />
+    <bpmn:association id="Association_0g80e3z" associationDirection="None" sourceRef="Activity_NotifyCustomerTravelCancellation" targetRef="TextAnnotation_0dqkwmh" />
+  </bpmn:collaboration>
+  <bpmn:process id="BusinessTravelProcessPlay" name="Business Travel Process" isExecutable="true">
+    <bpmn:extensionElements>
+      <zeebe:userTaskForm id="UserTaskForm_3r596qi">{
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.5.0",
+  "exporter": {
+    "name": "Camunda Web Modeler",
+    "version": "f21c83d"
+  },
+  "schemaVersion": 16,
+  "id": "check-mission-details-0pemorr",
+  "components": [],
+  "type": "default"
+}</zeebe:userTaskForm>
+    </bpmn:extensionElements>
+    <bpmn:laneSet id="LaneSet_128ui3l" />
+    <bpmn:startEvent id="Event_NewBusinessTravelRequested" name="New business travel requested">
+      <bpmn:extensionElements>
+        <zeebe:properties>
+          <zeebe:property name="camundaModeler:exampleOutputJson" value="{&#10;  &#34;travelRequestId&#34;: &#34;1695286596244&#34;,&#10;  &#34;travel&#34;: {&#10;    &#34;startDate&#34;: &#34;2025-11-06&#34;,&#10;    &#34;endDate&#34;: &#34;2025-11-08&#34;,&#10;    &#34;destination&#34;: &#34;Paris&#34;    &#10;  },&#10;  &#34;employee&#34;: {&#10;    &#34;fullName&#34;: &#34;Helen Kelly&#34;,&#10;    &#34;email&#34;: &#34;helen.kelly@camundanzia.com&#34;&#10;  },&#10;  &#34;customer&#34;: {&#10;    &#34;name&#34;: &#34;SHD - StellarBound Horizons Dynamics&#34;,&#10;    &#34;address&#34;: &#34;42 Interstellar Commerce Plaza - Orion Sector&#34;,&#10;    &#34;city&#34;: &#34;Nova Terra&#34;,&#10;    &#34;email&#34;: &#34;welcome@shd-stellar-horizons-dynamics.io&#34;&#10;  }&#10;}" />
+        </zeebe:properties>
+      </bpmn:extensionElements>
+      <bpmn:outgoing>Flow_052bsev</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="Activity_SelectFlightAndHotel" name="Select flight and hotel">
+      <bpmn:extensionElements>
+        <zeebe:formDefinition formId="select-flight-and-hotel-01n9xjw" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_052bsev</bpmn:incoming>
+      <bpmn:outgoing>Flow_13tz1ea</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:subProcess id="Activity_08yj55t" name="Travel Agency Booking">
+      <bpmn:incoming>Flow_13tz1ea</bpmn:incoming>
+      <bpmn:outgoing>Flow_10xlyu1</bpmn:outgoing>
+      <bpmn:endEvent id="Event_BookingEnded" name="Booking ended">
+        <bpmn:incoming>Flow_0qz5he1</bpmn:incoming>
+      </bpmn:endEvent>
+      <bpmn:startEvent id="Event_BookingStarted" name="Booking started">
+        <bpmn:outgoing>Flow_1nfqd8j</bpmn:outgoing>
+      </bpmn:startEvent>
+      <bpmn:sequenceFlow id="Flow_1nfqd8j" sourceRef="Event_BookingStarted" targetRef="Activity_SendRequestToTravelAgency" />
+      <bpmn:sequenceFlow id="Flow_06wki4g" sourceRef="Activity_SendRequestToTravelAgency" targetRef="Event_BookingConfirmed" />
+      <bpmn:sendTask id="Activity_SendRequestToTravelAgency" name="Send request to travel agency">
+        <bpmn:extensionElements>
+          <zeebe:taskDefinition type="bookRequest" />
+          <zeebe:properties />
+        </bpmn:extensionElements>
+        <bpmn:incoming>Flow_1nfqd8j</bpmn:incoming>
+        <bpmn:outgoing>Flow_06wki4g</bpmn:outgoing>
+      </bpmn:sendTask>
+      <bpmn:sequenceFlow id="Flow_0nzqkpv" sourceRef="Event_BookingConfirmed" targetRef="Activity_NotifyEmployeeBookingConfirmed" />
+      <bpmn:intermediateCatchEvent id="Event_BookingConfirmed" name="Booking confirmed">
+        <bpmn:extensionElements>
+          <zeebe:properties>
+            <zeebe:property name="camundaModeler:exampleOutputJson" value="{&#34;booking_ref&#34;:&#34;SBHD-359XZT-0421&#34;}" />
+          </zeebe:properties>
+        </bpmn:extensionElements>
+        <bpmn:incoming>Flow_06wki4g</bpmn:incoming>
+        <bpmn:outgoing>Flow_0nzqkpv</bpmn:outgoing>
+        <bpmn:messageEventDefinition id="MessageEventDefinition_1o1fmaq" messageRef="Message_0sco7uo" />
+      </bpmn:intermediateCatchEvent>
+      <bpmn:sequenceFlow id="Flow_0qz5he1" sourceRef="Activity_NotifyEmployeeBookingConfirmed" targetRef="Event_BookingEnded" />
+      <bpmn:serviceTask id="Activity_NotifyEmployeeBookingConfirmed" name="Notify employee booking confirmed">
+        <bpmn:extensionElements>
+          <zeebe:taskDefinition type="notifyEmployeeBookingConfirmed" />
+          <zeebe:properties>
+            <zeebe:property name="camundaModeler:exampleOutputJson" value="{&#10;  &#34;notifyEmployeeConfirmation&#34;:{&#10;    &#34;subject&#34;:&#34;Your Travel Booking Confirmation with [customer.name]&#34;,&#10;    &#34;body&#34;:&#34;Dear [employee.fullname], Your travel was confirmed with this [booking_ref]&#34;&#10;  }&#10;}" />
+          </zeebe:properties>
+        </bpmn:extensionElements>
+        <bpmn:incoming>Flow_0nzqkpv</bpmn:incoming>
+        <bpmn:outgoing>Flow_0qz5he1</bpmn:outgoing>
+      </bpmn:serviceTask>
+      <bpmn:boundaryEvent id="Event_EmployeeNotificationUpdated" name="Notification updated" attachedToRef="Activity_NotifyEmployeeBookingConfirmed">
+        <bpmn:compensateEventDefinition id="CompensateEventDefinition_1st4jpi" />
+      </bpmn:boundaryEvent>
+      <bpmn:serviceTask id="Activity_NotifyEmployeeTravelCancellation" name="Notify employee travel cancellation" isForCompensation="true">
+        <bpmn:extensionElements>
+          <zeebe:properties>
+            <zeebe:property name="camundaModeler:exampleOutputJson" value="{&#10;  &#34;notifyEmployeeCancellation&#34;:{&#10;    &#34;subject&#34;:&#34;Your Travel with [customer.name] was cancelled&#34;, &#10;    &#34;body&#34;:&#34;Dear [employee.fullName], your travel was cancelled due to [cancellation_reason].&#34;&#10;  }&#10;}" />
+          </zeebe:properties>
+          <zeebe:taskDefinition type="notifyEmployeeBookingCancelled" />
+        </bpmn:extensionElements>
+      </bpmn:serviceTask>
+      <bpmn:association id="Association_1qsejja" associationDirection="One" sourceRef="Event_EmployeeNotificationUpdated" targetRef="Activity_NotifyEmployeeTravelCancellation" />
+    </bpmn:subProcess>
+    <bpmn:serviceTask id="Activity_NotifyEmployeeTravelPolicyUpdated" name="Notify employee travel policy updated">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="notifyEmployeeTravelPolicyUpdated" />
+        <zeebe:properties>
+          <zeebe:property name="camundaModeler:exampleOutputJson" value="{&#10;  &#34;notifyEmployeePolicy&#34;:{&#10;    &#34;subject&#34;:&#34;Important Update: Company Travel Policy Updated&#34;,&#10;    &#34;body&#34;: &#34;Dear [employee.fullName], Check the changes on the travel policy: [travelPolicyUpdate]&#34;&#10;  }&#10;}" />
+        </zeebe:properties>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0lgmizy</bpmn:incoming>
+      <bpmn:outgoing>Flow_1cvurn7</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_NotifyCustomerTravelConfirmed" name="Notify customer travel confirmed">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="notifyCustomerTravelConfirmed" />
+        <zeebe:properties>
+          <zeebe:property name="camundaModeler:exampleOutputJson" value="{&#10;  &#34;notifyCustomerConfirmation&#34;:{&#10;    &#34;subject&#34;:&#34;Camundanzia expert&#39;s trip confirmed&#34;,&#10;    &#34;body&#34;: &#34;Dear [customer.name], the trip planned with a Camundanzia expert has been confirmed.&#34;&#10;  }&#10;}" />
+        </zeebe:properties>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_10xlyu1</bpmn:incoming>
+      <bpmn:outgoing>Flow_1c1aymk</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="EndEvent_TravelPolicyUpdateNotified" name="Travel policy update notified">
+      <bpmn:incoming>Flow_1cvurn7</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:eventBasedGateway id="Event_based_gateway">
+      <bpmn:incoming>Flow_1c1aymk</bpmn:incoming>
+      <bpmn:outgoing>Flow_0x0owtv</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1v0p8pn</bpmn:outgoing>
+    </bpmn:eventBasedGateway>
+    <bpmn:serviceTask id="Activity_NotifyCustomerTravelCancellation" name="Notify customer travel cancellation" isForCompensation="true">
+      <bpmn:extensionElements>
+        <zeebe:properties>
+          <zeebe:property name="camundaModeler:exampleOutputJson" value="{&#10;  &#34;notifyCustomerCancellation&#34;:{&#10;    &#34;subject&#34;:&#34;Camundanzia expert&#39;s trip cancelled&#34;, &#10;    &#34;body&#34;:&#34;Dear [customer.name], the trip planned with a Camundanzia expert has been cancelled due to [cancellation_reason].&#34;&#10;  }&#10;}" />
+        </zeebe:properties>
+        <zeebe:taskDefinition type="notifyCustomerTravelBooking" />
+      </bpmn:extensionElements>
+    </bpmn:serviceTask>
+    <bpmn:intermediateCatchEvent id="Event_TravelEndDateArrived" name="Travel end date arrived">
+      <bpmn:incoming>Flow_1v0p8pn</bpmn:incoming>
+      <bpmn:outgoing>Flow_0txv1hv</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="TimerEventDefinition_0glifya">
+        <bpmn:timeDate xsi:type="bpmn:tFormalExpression">=date and time (travel.endDate)</bpmn:timeDate>
+      </bpmn:timerEventDefinition>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateCatchEvent id="Event_TravelCancelled" name="Travel cancelled">
+      <bpmn:extensionElements>
+        <zeebe:properties>
+          <zeebe:property name="camundaModeler:exampleOutputJson" value="{&#34;cancellation_reason&#34;: &#34;sickness&#34;}" />
+        </zeebe:properties>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0x0owtv</bpmn:incoming>
+      <bpmn:outgoing>Flow_0flba1w</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0b9ou9w" messageRef="Message_3pn76kl" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:endEvent id="Event_NotificationsUpdated" name="Notifiations updated">
+      <bpmn:incoming>Flow_0flba1w</bpmn:incoming>
+      <bpmn:compensateEventDefinition id="CompensateEventDefinition_0fwpgfy" />
+    </bpmn:endEvent>
+    <bpmn:endEvent id="EndEvent_BusinessTravelCompleted" name="Business travel completed">
+      <bpmn:incoming>Flow_16f97ww</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="MergeGateway_Reimbursement">
+      <bpmn:incoming>Flow_0rphnba</bpmn:incoming>
+      <bpmn:incoming>Flow_no</bpmn:incoming>
+      <bpmn:outgoing>Flow_16f97ww</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:callActivity id="CallActivity_ClaimReimbursement" name="Claim reimbursement">
+      <bpmn:extensionElements>
+        <zeebe:calledElement processId="ReimbursementClaimProcess" propagateAllChildVariables="true" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_yes</bpmn:incoming>
+      <bpmn:outgoing>Flow_0rphnba</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:serviceTask id="Activity_NotifyEmployeeTravelFeedback" name="Notify employee travel feedback">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="notifyEmployeeTravelFeedback" />
+        <zeebe:properties>
+          <zeebe:property name="camundaModeler:exampleOutputJson" value="{&#10;  &#34;notifyEmployeeTravelFeedback&#34;:{&#10;    &#34;subject&#34;:&#34;Reminder: Business Travel Feedback Needed&#34;,&#10;    &#34;body&#34;: &#34;Dear [employee.fullName], Please complete the Business travel feedback task.&#34;&#10;  }&#10;}" />
+        </zeebe:properties>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1q68q7q</bpmn:incoming>
+      <bpmn:outgoing>Flow_19t7b9e</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="Activity_BusinessTravelFeedback" name="Business travel feedback">
+      <bpmn:extensionElements>
+        <zeebe:formDefinition formId="business-travel-feedback-01n9xjw" />
+        <zeebe:properties />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0txv1hv</bpmn:incoming>
+      <bpmn:outgoing>Flow_09tq6dg</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_ReimbursementNeeded" name="Reimbursement needed?" default="Flow_no">
+      <bpmn:incoming>Flow_09tq6dg</bpmn:incoming>
+      <bpmn:outgoing>Flow_yes</bpmn:outgoing>
+      <bpmn:outgoing>Flow_no</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="EndEvent_TravelFeedbackNotified" name="Travel feedback notified">
+      <bpmn:incoming>Flow_19t7b9e</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:boundaryEvent id="Event_Reminder1s" name="Send reminder (1s)" cancelActivity="false" attachedToRef="Activity_BusinessTravelFeedback">
+      <bpmn:outgoing>Flow_1q68q7q</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="TimerEventDefinition_03d13ae">
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT1S</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:boundaryEvent>
+    <bpmn:boundaryEvent id="Event_TravelPolicyUpdated" name="Travel policy updated" cancelActivity="false" attachedToRef="Activity_08yj55t">
+      <bpmn:extensionElements>
+        <zeebe:properties>
+          <zeebe:property name="camundaModeler:exampleOutputJson" value="{&#10;  &#34;travelPolicyUpdate&#34;:&#34;New business travel expenses by common categories: flights, lodging, ground transportation, food and entertainment, and personal telephone usage.&#34;&#10;}" />
+        </zeebe:properties>
+      </bpmn:extensionElements>
+      <bpmn:outgoing>Flow_0lgmizy</bpmn:outgoing>
+      <bpmn:signalEventDefinition id="SignalEventDefinition_0vqvt55" signalRef="Signal_0k6j1jg" />
+    </bpmn:boundaryEvent>
+    <bpmn:boundaryEvent id="Event_CustomerNotificationUpdated" name="Notification updated" attachedToRef="Activity_NotifyCustomerTravelConfirmed">
+      <bpmn:compensateEventDefinition id="CompensateEventDefinition_1b5xf7l" />
+    </bpmn:boundaryEvent>
+    <bpmn:sequenceFlow id="Flow_052bsev" sourceRef="Event_NewBusinessTravelRequested" targetRef="Activity_SelectFlightAndHotel" />
+    <bpmn:sequenceFlow id="Flow_13tz1ea" sourceRef="Activity_SelectFlightAndHotel" targetRef="Activity_08yj55t" />
+    <bpmn:sequenceFlow id="Flow_10xlyu1" sourceRef="Activity_08yj55t" targetRef="Activity_NotifyCustomerTravelConfirmed" />
+    <bpmn:sequenceFlow id="Flow_0lgmizy" sourceRef="Event_TravelPolicyUpdated" targetRef="Activity_NotifyEmployeeTravelPolicyUpdated" />
+    <bpmn:sequenceFlow id="Flow_1cvurn7" sourceRef="Activity_NotifyEmployeeTravelPolicyUpdated" targetRef="EndEvent_TravelPolicyUpdateNotified" />
+    <bpmn:sequenceFlow id="Flow_1c1aymk" sourceRef="Activity_NotifyCustomerTravelConfirmed" targetRef="Event_based_gateway" />
+    <bpmn:sequenceFlow id="Flow_0x0owtv" sourceRef="Event_based_gateway" targetRef="Event_TravelCancelled" />
+    <bpmn:sequenceFlow id="Flow_1v0p8pn" sourceRef="Event_based_gateway" targetRef="Event_TravelEndDateArrived" />
+    <bpmn:sequenceFlow id="Flow_0txv1hv" sourceRef="Event_TravelEndDateArrived" targetRef="Activity_BusinessTravelFeedback" />
+    <bpmn:sequenceFlow id="Flow_0flba1w" sourceRef="Event_TravelCancelled" targetRef="Event_NotificationsUpdated" />
+    <bpmn:sequenceFlow id="Flow_16f97ww" sourceRef="MergeGateway_Reimbursement" targetRef="EndEvent_BusinessTravelCompleted" />
+    <bpmn:sequenceFlow id="Flow_no" name="no" sourceRef="Gateway_ReimbursementNeeded" targetRef="MergeGateway_Reimbursement" />
+    <bpmn:sequenceFlow id="Flow_0rphnba" sourceRef="CallActivity_ClaimReimbursement" targetRef="MergeGateway_Reimbursement" />
+    <bpmn:sequenceFlow id="Flow_yes" name="yes" sourceRef="Gateway_ReimbursementNeeded" targetRef="CallActivity_ClaimReimbursement">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=travel.reimbursementNeeded</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1q68q7q" sourceRef="Event_Reminder1s" targetRef="Activity_NotifyEmployeeTravelFeedback" />
+    <bpmn:sequenceFlow id="Flow_19t7b9e" sourceRef="Activity_NotifyEmployeeTravelFeedback" targetRef="EndEvent_TravelFeedbackNotified" />
+    <bpmn:sequenceFlow id="Flow_09tq6dg" sourceRef="Activity_BusinessTravelFeedback" targetRef="Gateway_ReimbursementNeeded" />
+    <bpmn:association id="Association_0lbqj7p" associationDirection="One" sourceRef="Event_CustomerNotificationUpdated" targetRef="Activity_NotifyCustomerTravelCancellation" />
+  </bpmn:process>
+  <bpmn:message id="Message_0sco7uo" name="msg_bookingConfirmed">
+    <bpmn:extensionElements>
+      <zeebe:subscription correlationKey="=travelRequestId" />
+    </bpmn:extensionElements>
+  </bpmn:message>
+  <bpmn:message id="Message_3pn76kl" name="msg_bookingCancelled">
+    <bpmn:extensionElements>
+      <zeebe:subscription correlationKey="=travelRequestId" />
+    </bpmn:extensionElements>
+  </bpmn:message>
+  <bpmn:signal id="Signal_0k6j1jg" name="Signal_TravelPolicyUpdated" />
+  <bpmn:message id="Message_2gtt4ec" name="msg_booking">
+    <bpmn:extensionElements>
+      <zeebe:subscription correlationKey="=travelRequestId" />
+    </bpmn:extensionElements>
+  </bpmn:message>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_01wslmh">
+      <bpmndi:BPMNShape id="Participant_06s9onz_di" bpmnElement="Participant_06s9onz" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="2239" height="820" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0sjagbj_di" bpmnElement="Event_NewBusinessTravelRequested">
+        <dc:Bounds x="252" y="442" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="233" y="485" width="79" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0hzidzo_di" bpmnElement="Activity_SelectFlightAndHotel">
+        <dc:Bounds x="370" y="420" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_08yj55t_di" bpmnElement="Activity_08yj55t" isExpanded="true">
+        <dc:Bounds x="530" y="255" width="630" height="420" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1dptwn6_di" bpmnElement="Event_BookingEnded">
+        <dc:Bounds x="1061" y="437" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1042" y="480" width="74" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0q55svb_di" bpmnElement="Event_BookingStarted">
+        <dc:Bounds x="571" y="437" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="551" y="480" width="77" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_02khoyc_di" bpmnElement="Activity_SendRequestToTravelAgency">
+        <dc:Bounds x="659" y="415" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_09bvj3l_di" bpmnElement="Event_BookingConfirmed">
+        <dc:Bounds x="831" y="437" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="825" y="481" width="49" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1eiohbp_di" bpmnElement="Activity_NotifyEmployeeBookingConfirmed">
+        <dc:Bounds x="910" y="415" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0y328kl_di" bpmnElement="Activity_NotifyEmployeeTravelCancellation">
+        <dc:Bounds x="1029" y="560" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_06sackr_di" bpmnElement="Event_EmployeeNotificationUpdated">
+        <dc:Bounds x="942" y="477" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="963" y="520" width="55" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1nfqd8j_di" bpmnElement="Flow_1nfqd8j">
+        <di:waypoint x="607" y="455" />
+        <di:waypoint x="659" y="455" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_06wki4g_di" bpmnElement="Flow_06wki4g">
+        <di:waypoint x="759" y="455" />
+        <di:waypoint x="831" y="455" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0nzqkpv_di" bpmnElement="Flow_0nzqkpv">
+        <di:waypoint x="867" y="455" />
+        <di:waypoint x="910" y="455" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0qz5he1_di" bpmnElement="Flow_0qz5he1">
+        <di:waypoint x="1010" y="455" />
+        <di:waypoint x="1061" y="455" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_1qsejja_di" bpmnElement="Association_1qsejja">
+        <di:waypoint x="960" y="513" />
+        <di:waypoint x="960" y="600" />
+        <di:waypoint x="1029" y="600" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_10bgqik_di" bpmnElement="Activity_NotifyEmployeeTravelPolicyUpdated">
+        <dc:Bounds x="1250" y="255" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0hakp2s_di" bpmnElement="Activity_NotifyCustomerTravelConfirmed">
+        <dc:Bounds x="1230" y="420" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1dw2fcz_di" bpmnElement="EndEvent_TravelPolicyUpdateNotified">
+        <dc:Bounds x="1412" y="277" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1395" y="246" width="73" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0phev16_di" bpmnElement="Event_based_gateway">
+        <dc:Bounds x="1455" y="435" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_04zj75m_di" bpmnElement="Activity_NotifyCustomerTravelCancellation">
+        <dc:Bounds x="1340" y="570" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1w8cijr_di" bpmnElement="Event_TravelEndDateArrived">
+        <dc:Bounds x="1602" y="442" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1588" y="485" width="77" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_124u3ly_di" bpmnElement="Event_TravelCancelled">
+        <dc:Bounds x="1602" y="552" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1580" y="595" width="80" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1en6dtk_di" bpmnElement="Event_NotificationsUpdated">
+        <dc:Bounds x="1712" y="552" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1705" y="595" width="55" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0nskeu0_di" bpmnElement="EndEvent_BusinessTravelCompleted">
+        <dc:Bounds x="2301" y="442" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2284" y="485" width="75" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0nwlrg3_di" bpmnElement="MergeGateway_Reimbursement" isMarkerVisible="true">
+        <dc:Bounds x="2204" y="435" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1x7kips_di" bpmnElement="CallActivity_ClaimReimbursement">
+        <dc:Bounds x="2049" y="420" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_14g7vx9_di" bpmnElement="Activity_NotifyEmployeeTravelFeedback">
+        <dc:Bounds x="1869" y="290" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0qpobzn_di" bpmnElement="Activity_BusinessTravelFeedback">
+        <dc:Bounds x="1760" y="420" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_01ttlue_di" bpmnElement="Gateway_ReimbursementNeeded" isMarkerVisible="true">
+        <dc:Bounds x="1935" y="435" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1921" y="406" width="79" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1r70owh_di" bpmnElement="EndEvent_TravelFeedbackNotified">
+        <dc:Bounds x="2017" y="312" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1997" y="355" width="79" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1qrkutz_di" bpmnElement="Event_CustomerNotificationUpdated">
+        <dc:Bounds x="1262" y="482" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1283" y="516" width="55" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1kn01qw_di" bpmnElement="Event_TravelPolicyUpdated">
+        <dc:Bounds x="1142" y="277" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1169" y="251" width="62" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0ponb4z_di" bpmnElement="Event_Reminder1s">
+        <dc:Bounds x="1782" y="402" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1813" y="386" width="73" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_052bsev_di" bpmnElement="Flow_052bsev">
+        <di:waypoint x="288" y="460" />
+        <di:waypoint x="370" y="460" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_13tz1ea_di" bpmnElement="Flow_13tz1ea">
+        <di:waypoint x="470" y="460" />
+        <di:waypoint x="530" y="460" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_10xlyu1_di" bpmnElement="Flow_10xlyu1">
+        <di:waypoint x="1160" y="460" />
+        <di:waypoint x="1230" y="460" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0lgmizy_di" bpmnElement="Flow_0lgmizy">
+        <di:waypoint x="1178" y="295" />
+        <di:waypoint x="1250" y="295" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1cvurn7_di" bpmnElement="Flow_1cvurn7">
+        <di:waypoint x="1350" y="295" />
+        <di:waypoint x="1412" y="295" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1c1aymk_di" bpmnElement="Flow_1c1aymk">
+        <di:waypoint x="1330" y="460" />
+        <di:waypoint x="1455" y="460" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0x0owtv_di" bpmnElement="Flow_0x0owtv">
+        <di:waypoint x="1480" y="485" />
+        <di:waypoint x="1480" y="570" />
+        <di:waypoint x="1602" y="570" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1v0p8pn_di" bpmnElement="Flow_1v0p8pn">
+        <di:waypoint x="1505" y="460" />
+        <di:waypoint x="1602" y="460" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0txv1hv_di" bpmnElement="Flow_0txv1hv">
+        <di:waypoint x="1638" y="460" />
+        <di:waypoint x="1760" y="460" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0flba1w_di" bpmnElement="Flow_0flba1w">
+        <di:waypoint x="1638" y="570" />
+        <di:waypoint x="1712" y="570" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_16f97ww_di" bpmnElement="Flow_16f97ww">
+        <di:waypoint x="2254" y="460" />
+        <di:waypoint x="2301" y="460" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_10rv1ta_di" bpmnElement="Flow_no">
+        <di:waypoint x="1960" y="485" />
+        <di:waypoint x="1960" y="550" />
+        <di:waypoint x="2229" y="550" />
+        <di:waypoint x="2229" y="485" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1973" y="492" width="13" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0rphnba_di" bpmnElement="Flow_0rphnba">
+        <di:waypoint x="2149" y="460" />
+        <di:waypoint x="2204" y="460" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1d3abuz_di" bpmnElement="Flow_yes">
+        <di:waypoint x="1985" y="460" />
+        <di:waypoint x="2049" y="460" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2008" y="442" width="17" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1q68q7q_di" bpmnElement="Flow_1q68q7q">
+        <di:waypoint x="1800" y="402" />
+        <di:waypoint x="1800" y="330" />
+        <di:waypoint x="1869" y="330" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_19t7b9e_di" bpmnElement="Flow_19t7b9e">
+        <di:waypoint x="1969" y="330" />
+        <di:waypoint x="2017" y="330" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_09tq6dg_di" bpmnElement="Flow_09tq6dg">
+        <di:waypoint x="1860" y="460" />
+        <di:waypoint x="1935" y="460" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0lbqj7p_di" bpmnElement="Association_0lbqj7p">
+        <di:waypoint x="1280" y="518" />
+        <di:waypoint x="1280" y="610" />
+        <di:waypoint x="1340" y="610" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_07qzc2g_di" bpmnElement="TextAnnotation_07qzc2g">
+        <dc:Bounds x="1250" y="200" width="100" height="39" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0gs1wgd_di" bpmnElement="TextAnnotation_0gs1wgd">
+        <dc:Bounds x="1230" y="360" width="100" height="39" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1dq34hg_di" bpmnElement="TextAnnotation_1dq34hg">
+        <dc:Bounds x="1850" y="220" width="100" height="41" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0euyu5p_di" bpmnElement="TextAnnotation_0euyu5p">
+        <dc:Bounds x="1010" y="350" width="100" height="40" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1h12q4x_di" bpmnElement="TextAnnotation_1h12q4x">
+        <dc:Bounds x="1029" y="510" width="100" height="41" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0dqkwmh_di" bpmnElement="TextAnnotation_0dqkwmh">
+        <dc:Bounds x="1350" y="520" width="100" height="41" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_1x6djt9_di" bpmnElement="Association_1x6djt9">
+        <di:waypoint x="1300" y="255" />
+        <di:waypoint x="1300" y="239" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0uhow9r_di" bpmnElement="Association_0uhow9r">
+        <di:waypoint x="1279" y="420" />
+        <di:waypoint x="1277" y="399" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_153t3je_di" bpmnElement="Association_153t3je">
+        <di:waypoint x="1910" y="290" />
+        <di:waypoint x="1904" y="261" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_14e8j38_di" bpmnElement="Association_14e8j38">
+        <di:waypoint x="1005" y="417" />
+        <di:waypoint x="1036" y="390" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_16nhw5h_di" bpmnElement="Association_16nhw5h">
+        <di:waypoint x="1079" y="560" />
+        <di:waypoint x="1079" y="551" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0g80e3z_di" bpmnElement="Association_0g80e3z">
+        <di:waypoint x="1395" y="570" />
+        <di:waypoint x="1397" y="561" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

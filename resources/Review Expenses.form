@@ -1,0 +1,330 @@
+{
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.6.0",
+  "exporter": {
+    "name": "Camunda Web Modeler",
+    "version": "3baa5d2"
+  },
+  "schemaVersion": 16,
+  "id": "review-expense-report-01n9xjw",
+  "components": [
+    {
+      "text": "### Review Expense Report",
+      "type": "text",
+      "layout": {
+        "row": "row_1",
+        "col": "auto"
+      },
+      "id": "Heading_1"
+    },
+    {
+      "text": "##### Customer Details",
+      "label": "Text view",
+      "type": "text",
+      "layout": {
+        "row": "Row_0jiyicd",
+        "columns": null
+      },
+      "id": "Field_13h5hmf"
+    },
+    {
+      "label": "Name",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_1jz44iv",
+        "columns": null
+      },
+      "id": "Field_0ile9rs",
+      "key": "customer.name",
+      "readonly": true
+    },
+    {
+      "label": "Address",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_09j3bag",
+        "columns": null
+      },
+      "id": "Field_1j8vwpe",
+      "key": "customer.address",
+      "readonly": true
+    },
+    {
+      "label": "City",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_09j3bag",
+        "columns": null
+      },
+      "id": "Field_0swkmzc",
+      "key": "customer.city",
+      "readonly": true
+    },
+    {
+      "text": "##### Employee Details",
+      "label": "Text view",
+      "type": "text",
+      "layout": {
+        "row": "Row_0czc39h",
+        "columns": null
+      },
+      "id": "Field_0u1iv7o"
+    },
+    {
+      "label": "Full Name",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0r3548h",
+        "columns": null
+      },
+      "id": "Field_1tlu37o",
+      "key": "employee.fullName",
+      "readonly": true
+    },
+    {
+      "label": "Email",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0r3548h",
+        "columns": null
+      },
+      "id": "Field_1rxkil8",
+      "key": "employee.email",
+      "readonly": true
+    },
+    {
+      "text": "##### Travel Details",
+      "label": "Text view",
+      "type": "text",
+      "layout": {
+        "row": "Row_1imqvny",
+        "columns": null
+      },
+      "id": "Field_1jt7e45"
+    },
+    {
+      "subtype": "date",
+      "dateLabel": "Start Date",
+      "label": "Date time",
+      "type": "datetime",
+      "layout": {
+        "row": "Row_0lw1vs6",
+        "columns": null
+      },
+      "id": "Field_0qurh3i",
+      "key": "travel.startDate",
+      "readonly": true
+    },
+    {
+      "subtype": "date",
+      "dateLabel": "End Date",
+      "label": "Date time",
+      "type": "datetime",
+      "layout": {
+        "row": "Row_0lw1vs6",
+        "columns": null
+      },
+      "id": "Field_1s4wi54",
+      "key": "travel.endDate",
+      "readonly": true
+    },
+    {
+      "label": "Destination",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_10ze6m1",
+        "columns": null
+      },
+      "id": "Field_1118l0w",
+      "key": "travel.destination",
+      "description": "Business travel destination",
+      "readonly": true
+    },
+    {
+      "text": "##### Flight Details",
+      "type": "text",
+      "layout": {
+        "row": "row_2",
+        "col": "auto"
+      },
+      "id": "Subheading_1"
+    },
+    {
+      "text": "##### Hotel Details",
+      "type": "text",
+      "layout": {
+        "row": "row_2",
+        "col": "auto"
+      },
+      "id": "Subheading_2"
+    },
+    {
+      "values": [
+        {
+          "value": "LH 1074",
+          "label": "LH 1074"
+        },
+        {
+          "value": "LH 1036",
+          "label": "LH 1036"
+        },
+        {
+          "value": "LH 1089",
+          "label": "LH 1089"
+        }
+      ],
+      "type": "select",
+      "layout": {
+        "row": "row_3",
+        "col": "auto"
+      },
+      "id": "Select_1",
+      "label": "Start Flight",
+      "key": "travel.flight",
+      "searchable": false,
+      "readonly": true
+    },
+    {
+      "values": [
+        {
+          "value": "Hotel Résidence Montebello",
+          "label": "Hotel Résidence Montebello"
+        },
+        {
+          "value": "Hotel Park Lane",
+          "label": "Hotel Park Lane"
+        },
+        {
+          "value": "Hotel Rivoli",
+          "label": "Hotel Rivoli"
+        }
+      ],
+      "type": "select",
+      "layout": {
+        "row": "row_3",
+        "col": "auto"
+      },
+      "id": "Select_2",
+      "label": "Hotel",
+      "key": "travel.hotel",
+      "readonly": true
+    },
+    {
+      "text": "---",
+      "label": "Text view",
+      "type": "text",
+      "layout": {
+        "row": "Row_1ens538",
+        "columns": null
+      },
+      "id": "Field_0991vfs"
+    },
+    {
+      "text": "##### Travel Feedback",
+      "label": "Text view",
+      "type": "text",
+      "layout": {
+        "row": "Row_0uhycn6",
+        "columns": null
+      },
+      "id": "Field_1sh16zp"
+    },
+    {
+      "label": "How was your travel? (optional)",
+      "type": "textarea",
+      "layout": {
+        "row": "Row_0d9voh8",
+        "columns": null
+      },
+      "id": "Field_1xxtb8x",
+      "key": "travel.feedback",
+      "readonly": true
+    },
+    {
+      "text": "##### Travel Expenses",
+      "label": "Text view",
+      "type": "text",
+      "layout": {
+        "row": "Row_1sbuiux",
+        "columns": null
+      },
+      "id": "Field_1ehy81g"
+    },
+    {
+      "components": [
+        {
+          "label": "Name",
+          "type": "textfield",
+          "layout": {
+            "row": "Row_09iarmk",
+            "columns": null
+          },
+          "id": "Field_0ta9bej",
+          "key": "name",
+          "readonly": true
+        },
+        {
+          "label": "Amount",
+          "type": "number",
+          "layout": {
+            "row": "Row_09iarmk",
+            "columns": null
+          },
+          "id": "Field_1i6f3fl",
+          "key": "amount",
+          "readonly": true
+        }
+      ],
+      "showOutline": true,
+      "isRepeating": true,
+      "allowAddRemove": true,
+      "defaultRepetitions": 1,
+      "label": "Expenses",
+      "type": "dynamiclist",
+      "layout": {
+        "row": "Row_1fod1to",
+        "columns": null
+      },
+      "id": "Field_0x1he0b",
+      "path": "travelExpenses"
+    },
+    {
+      "computeOn": "change",
+      "label": "Expression",
+      "type": "expression",
+      "layout": {
+        "row": "Row_17x4ycg",
+        "columns": null
+      },
+      "id": "Field_03u7p6f",
+      "key": "expenses",
+      "expression": "=sum(travelExpenses.amount)"
+    },
+    {
+      "content": "<div style=\"text-align:right;font-size:2em;\">\nTotal expenses: {{expenses}}\n</div>",
+      "label": "HTML view",
+      "type": "html",
+      "layout": {
+        "row": "Row_1a6fl61",
+        "columns": null
+      },
+      "id": "Field_016rvfd",
+      "conditional": {
+        "hide": "=expenses = null"
+      }
+    },
+    {
+      "label": "Approve reimbursement",
+      "type": "checkbox",
+      "layout": {
+        "row": "Row_0nnq9xe",
+        "columns": null
+      },
+      "id": "Field_0au7wgc",
+      "key": "reimbursementApproved",
+      "defaultValue": true
+    }
+  ],
+  "generated": true,
+  "type": "default"
+}
